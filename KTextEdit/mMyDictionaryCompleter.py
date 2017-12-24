@@ -1,19 +1,11 @@
-#===============================================================================
-# MyDictionaryCompleter
-#===============================================================================
-from PyQt4 import QtGui, QtCore
-class MyDictionaryCompleter(QtGui.QCompleter):
-#|-----------------------------------------------------------------------------|
-# class Variables
-#|-----------------------------------------------------------------------------| 
+from PyQt5 import QtWidgets
+from PyQt5 import QtGui, QtCore
+
+class KCompleter(QtWidgets.QCompleter): 
     insertText = QtCore.pyqtSignal(str)
-    #no classVariables
-#|-----------------------------------------------------------------------------|
-# Constructor  
-#|-----------------------------------------------------------------------------|
+    
     def __init__(self, myKeywords=None,parent=None):
-
-
+        # TODO: Ugh
         myKeywords =['apple','aggresive','ball','bat','cat','cycle','dog','dumb',\
                      'elephant','engineer','food','file','good','great',\
                      'hippopotamus','hyper','india','ireland','just','just',\
@@ -22,16 +14,12 @@ class MyDictionaryCompleter(QtGui.QCompleter):
                      'question','queue','right','rest','smile','simple',\
                      'tree','urban','very','wood','xylophone','yellow',\
                      'zebra']
-        QtGui.QCompleter.__init__(self, myKeywords, parent)
-        self.connect(self,
-            QtCore.SIGNAL("activated(const QString&)"), self.changeCompletion)
-#|--------------------------End of Constructor---------------------------------| 
-#|-----------------------------------------------------------------------------| 
-# changeCompletion
-#|-----------------------------------------------------------------------------|
+        QtWidgets.QCompleter.__init__(self, myKeywords, parent)
+        # Wut
+        self.connect(self, QtCore.SIGNAL("activated(const QString&)"), self.changeCompletion)
+
     def changeCompletion(self, completion):
         if completion.find("(") != -1:
             completion = completion[:completion.find("(")]
         print(completion)
         self.insertText.emit(completion)
-#|-----------------------End of changeCompletion-------------------------------|
