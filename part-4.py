@@ -15,6 +15,7 @@ from PyQt5 import QtGui, QtCore
 from PyQt5.QtCore import Qt
 
 from ext import *
+from KTextUtils import *
 
 class Main(QtWidgets.QMainWindow):
 
@@ -276,8 +277,9 @@ class Main(QtWidgets.QMainWindow):
 
     def initUI(self):
 
-        self.text = QtWidgets.QTextEdit(self)
-
+        self.text = ktextedit.KTextEdit(self)
+        completer = kcompleter.KCompleter()
+        self.text.setCompleter(completer)
         # Set the tab stop width to around 33 pixels which is
         # more or less 8 spaces
         self.text.setTabStopWidth(33)

@@ -2,7 +2,7 @@ from PyQt5 import QtWidgets
 from PyQt5 import QtGui, QtCore
 from PyQt5.QtCore import Qt
 
-from kcompleter import KCompleter
+#from kcompleter import KCompleter
 
 class KTextEdit(QtWidgets.QTextEdit):
     
