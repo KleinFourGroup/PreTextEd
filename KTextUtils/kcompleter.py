@@ -16,7 +16,8 @@ class KCompleter(QtWidgets.QCompleter):
                      'zebra']
         QtWidgets.QCompleter.__init__(self, myKeywords, parent)
         # Wut
-        self.connect(self, QtCore.SIGNAL("activated(const QString&)"), self.changeCompletion)
+        # self.connect(self, QtCore.SIGNAL("activated(const QString&)"), self.changeCompletion)
+        self.activated.connect(self.changeCompletion)
 
     def changeCompletion(self, completion):
         if completion.find("(") != -1:
