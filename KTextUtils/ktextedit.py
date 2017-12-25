@@ -19,7 +19,6 @@ class KTextEdit(QtWidgets.QTextEdit):
             self.disconnect(self.completer, 0, self, 0)
         if not completer:
             return
-
         completer.setWidget(self)
         completer.setCompletionMode(QtWidgets.QCompleter.PopupCompletion)
         completer.setCaseSensitivity(Qt.CaseInsensitive)
@@ -28,8 +27,7 @@ class KTextEdit(QtWidgets.QTextEdit):
         
     def insertCompletion(self, completion):
         tc = self.textCursor()
-        extra = (len(completion) -
-            len(self.completer.completionPrefix()))
+        extra = (len(completion) - len(self.completer.completionPrefix()))
         tc.movePosition(QtGui.QTextCursor.Left)
         tc.movePosition(QtGui.QTextCursor.EndOfWord)
         tc.insertText(completion[-extra:])
@@ -44,24 +42,22 @@ class KTextEdit(QtWidgets.QTextEdit):
         if self.completer:
             self.completer.setWidget(self);
         QtWidgets.QTextEdit.focusInEvent(self, event)
-        
+
+    # TODO: Refactor.  Looks iffy
     def keyPressEvent(self, event):
         if self.completer and self.completer.popup() and self.completer.popup().isVisible():
-            if event.key() in (
-            Qt.Key_Enter,
-            Qt.Key_Return,
-            Qt.Key_Escape,
-            Qt.Key_Tab,
-            Qt.Key_Backtab):
+            if event.key() in (Qt.Key_Enter,
+                               Qt.Key_Return,
+                               Qt.Key_Escape,
+                               Qt.Key_Tab,
+                               Qt.Key_Backtab):
                 event.ignore()
                 return
-        ## has ctrl-Space been pressed??
-        isShortcut = (event.modifiers() == Qt.ControlModifier and\
-                      event.key() == Qt.Key_Space)
-        ## modifier to complete suggestion inline ctrl-e
-        inline = (event.modifiers() == Qt.ControlModifier and \
-                  event.key() == Qt.Key_E)
-        ## if inline completion has been chosen
+        # has ctrl-Space been pressed??
+        isShortcut = (event.modifiers() == Qt.ControlModifier and event.key() == Qt.Key_Space)
+        # modifier to complete suggestion inline ctrl-e
+        inline = (event.modifiers() == Qt.ControlModifier and event.key() == Qt.Key_E)
+        # if inline completion has been chosen
         if inline:
             # set completion mode as inline
             self.completer.setCompletionMode(QtWidgets.QCompleter.InlineCompletion)
@@ -78,15 +74,12 @@ class KTextEdit(QtWidgets.QTextEdit):
             pass
             QtWidgets.QTextEdit.keyPressEvent(self, event)
         ## ctrl or shift key on it's own??
-        ctrlOrShift = event.modifiers() in (Qt.ControlModifier ,\
-                Qt.ShiftModifier)
+        ctrlOrShift = event.modifiers() in (Qt.ControlModifier, Qt.ShiftModifier)
         if ctrlOrShift and event.text()== '':
-#             ctrl or shift key on it's own
             return
         eow = "~!@#$%^&*+{}|:\"<>?,./;'[]\\-=" #end of word
 
-        hasModifier = ((event.modifiers() != Qt.NoModifier) and\
-                        not ctrlOrShift)
+        hasModifier = ((event.modifiers() != Qt.NoModifier) and not ctrlOrShift)
 
         completionPrefix = self.textUnderCursor()
         if not isShortcut :
@@ -95,13 +88,12 @@ class KTextEdit(QtWidgets.QTextEdit):
             return
         self.completer.setCompletionPrefix(completionPrefix)
         popup = self.completer.popup()
-        popup.setCurrentIndex(
-            self.completer.completionModel().index(0,0))
+        popup.setCurrentIndex(self.completer.completionModel().index(0,0))
         cr = self.cursorRect()
-        cr.setWidth(self.completer.popup().sizeHintForColumn(0)
-            + self.completer.popup().verticalScrollBar().sizeHint().width())
+        cr.setWidth(self.completer.popup().sizeHintForColumn(0) + self.completer.popup().verticalScrollBar().sizeHint().width())
         self.completer.complete(cr) ## popup it up!
 
+"""
 if __name__ == "__main__":
 
     app = QtWidgets.QApplication([])
@@ -110,3 +102,4 @@ if __name__ == "__main__":
     te.setCompleter(completer)
     te.show()
     app.exec_()
+"""
